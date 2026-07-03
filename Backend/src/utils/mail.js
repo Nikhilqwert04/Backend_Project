@@ -41,14 +41,14 @@ const sendMail = async (options) => {
 const emailVerificationMailGenContent = (username, verificationURL) => {
     return {
         body: {
-            name: 'John Appleseed',
+            name: username,
             intro: 'Welcome to Mailgen! We\'re very excited to have you on board.',
             action: {
                 instructions: 'To get started with Mailgen, please click here:',
                 button: {
                     color: '#22BC66', // Optional action button color
                     text: 'Confirm your account',
-                    link: 'verificationURL'
+                    link: verificationURL
                 }
             },
             outro: 'Need help, or have questions? Just reply to this email, we\'d love to help.'

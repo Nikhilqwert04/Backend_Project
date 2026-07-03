@@ -31,7 +31,7 @@ let UserSchema = new mongoose.Schema({
     },
     fullName: {
         type: String,
-        trime: true
+        trim: true
     },
     password: {
         type: String,
@@ -44,7 +44,7 @@ let UserSchema = new mongoose.Schema({
     refreshtoken: {
         type: String
     },
-    forgotPaswwordToken: {
+    forgotPasswordToken: {
         type: String
     },
     forgotPasswordExpiry: {
