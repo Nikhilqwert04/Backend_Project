@@ -1,10 +1,12 @@
 const express = require('express')
+const cookieParse = require('cookie-parser')
 const multer = require("multer")
 const uploadFile = require("./services/storage.service.js")
 const cors = require('cors')
 const StudentModel = require("./models/student.model.js")
 const app = express()
 
+app.use(cookieParse())
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true,

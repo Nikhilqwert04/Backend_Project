@@ -18,7 +18,7 @@ const userRegisterValidator = () => {
             .withMessage("username must be 3 characters long"),
         body("password")
             .trim()
-            .notEmpty
+            .notEmpty()
             .withMessage("Password is Required"),
         body("fullName")
             .optional()
@@ -27,4 +27,17 @@ const userRegisterValidator = () => {
     ]
 }
 
-module.exports = userRegisterValidator
+const userLoginValidator = () => {
+    return [
+        body("email")
+            .optional()
+            .isEmail()
+            .withMessage("Email is Invalid"),
+        body("password")
+            .notEmpty()
+            .withMessage("Password is Required")
+
+    ]
+}
+
+module.exports = { userRegisterValidator, userLoginValidator }
