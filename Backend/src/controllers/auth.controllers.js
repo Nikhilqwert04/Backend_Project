@@ -52,7 +52,7 @@ const registerUser = asyncHandler(async (req, res) => {
         subject: "Please verify your email",
         mailgenContent: emailVerificationMailGenContent(
             user.username,
-            `${req.protocol}://${req.get("host")}/api/v1/users/verify-email/${unHashedToken}`
+            `http://localhost:5173/verify-email/${unHashedToken}`
         )
     })
 
@@ -161,7 +161,6 @@ const verifyEmail = asyncHandler(async (req, res) => {
         .json(new ApiResponse(200, { isEmailVerified: true }, "Current User feteched Successfull"))
 })
 
-
 const resendEmailVerification = asyncHandler(async (req, res) => {
 
     const user = await User.findById(req.user?._id);
@@ -195,6 +194,7 @@ const resendEmailVerification = asyncHandler(async (req, res) => {
         .status(200)
         .json(new ApiResponse(200, {}, "Current User feteched Successfull"))
 })
+
 const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshToken || refreshAccessToken.body.refreshToken
 
@@ -256,7 +256,7 @@ const forgetPasswordRequest = asyncHandler(async (req, res) => {
         subject: "Password Reset Request",
         mailgenContent: forgotPasswordMailGenContent(
             user.username,
-            `${req.protocol}://${req.get("host")}/api/v1/users/verify-email/${unHashedToken}`
+            `http://localhost:5173/reset-password/${unHashedToken}`
         )
     })
 
@@ -292,5 +292,22 @@ const resetPasswordForget = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200,{},"Password reset successfully"))
 })
 
+const changeCurrentPassword = asyncHandler(async (req, res) => {
+    const {oldPassword, newPassword} = req.body
+    const user = await User.findById(req.user?._id)
 
-module.exports = { registerUser, login, logoutUser, getCurrentUser, verifyEmail, resendEmailVerification, refreshAccessToken, forgetPasswordRequest, resetPasswordForget}
+    const isPasswordValid = await user.isPasswordCorrect(oldPassword)
+
+    if(!isPasswordValid){
+        throw new ApiError(400,"Invalid old password")
+    }
+
+    user.password = newPassword
+    await user.save({validateBeforeSave:false})
+
+    return res.status(200)
+    .json(new ApiResponse(200,{},"Password Changes Successfully"))
+    
+})
+
+module.exports = { registerUser, login, logoutUser, getCurrentUser, verifyEmail, resendEmailVerification, refreshAccessToken, forgetPasswordRequest, resetPasswordForget,changeCurrentPassword}

@@ -12,8 +12,8 @@ const validate = (req,res,next)=>{
     error.array().map((err)=>extractedErrors.push({
         [err.path]:err.msg
     }))
-
-    throw new ApiError(422,"Recieved data is not valid",extractedErrors)
+    next(new ApiError(422,"Recieved data is not valid",extractedErrors))
 }
 
 module.exports=validate
+ 

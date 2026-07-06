@@ -57,7 +57,7 @@ let UserSchema = new mongoose.Schema({
         type: Date
     }
 }, {
-    timeStamp: true
+    timestamps: true
 })
 
 UserSchema.pre("save", async function () {
