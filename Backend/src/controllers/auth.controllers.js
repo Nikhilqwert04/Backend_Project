@@ -84,7 +84,7 @@ const login = asyncHandler(async (req, res) => {
     if (!isPasswordValid) {
         throw new ApiError(400, "Password not correct")
     }
-
+ 
     const { accessToken, refreshToken } = await genrateAccessAndRefreshToken(user._id)
 
     const loggedInUser = await User.findById(user._id).select("-password -refreshtoken -emailVerficationToken -emailVerficationExpiry")
