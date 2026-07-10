@@ -1,6 +1,6 @@
-require("dotenv").config()
-const app = require("./src/app")
-const connectdb = require("./src/db/db")
+import 'dotenv/config.js'
+import app from "./src/app.js";
+import connectdb from "./src/db/db.js";
 
 connectdb()
     .then(() => {

@@ -1,5 +1,5 @@
-const Mailgen = require('mailgen')
-const nodemailer = require("nodemailer")
+import Mailgen from 'mailgen';
+import nodemailer from "nodemailer";
 
 const sendMail = async (options) => {
     var mailGenerator = new Mailgen({
@@ -74,8 +74,8 @@ const forgotPasswordMailGenContent = (username, passwordResetURL) => {
     }
 }
 
-module.exports = {
+export {
     sendMail,
     emailVerificationMailGenContent,
     forgotPasswordMailGenContent
-}
+};

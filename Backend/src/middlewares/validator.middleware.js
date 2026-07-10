@@ -1,5 +1,5 @@
-const {validationResult} = require("express-validator")
-const ApiError = require("../utils/api-error.js")
+import {validationResult} from "express-validator";
+import ApiError from "../utils/api-error.js";
 
 
 const validate = (req,res,next)=>{
@@ -15,5 +15,5 @@ const validate = (req,res,next)=>{
     next(new ApiError(422,"Recieved data is not valid",extractedErrors))
 }
 
-module.exports=validate
+export default validate;
  

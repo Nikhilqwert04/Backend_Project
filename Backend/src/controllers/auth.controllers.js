@@ -1,9 +1,9 @@
-const User = require("../models/student.model.js")
-const ApiResponse = require("../utils/api-response.js");
-const ApiError = require("../utils/api-error.js");
-const asyncHandler = require("../utils/async-handler.js")
-const { sendMail, emailVerificationMailGenContent, forgotPasswordMailGenContent } = require("../utils/mail.js");
-const { JsonWebTokenError } = require("jsonwebtoken");
+import User from "../models/student.model.js";
+import ApiResponse from "../utils/api-response.js";
+import ApiError from "../utils/api-error.js";
+import asyncHandler from "../utils/async-handler.js";
+import { sendMail, emailVerificationMailGenContent, forgotPasswordMailGenContent } from "../utils/mail.js";
+
 
 
 const genrateAccessAndRefreshToken = async (userID) => {
@@ -310,4 +310,4 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     
 })
 
-module.exports = { registerUser, login, logoutUser, getCurrentUser, verifyEmail, resendEmailVerification, refreshAccessToken, forgetPasswordRequest, resetPasswordForget,changeCurrentPassword}
+export { registerUser, login, logoutUser, getCurrentUser, verifyEmail, resendEmailVerification, refreshAccessToken, forgetPasswordRequest, resetPasswordForget,changeCurrentPassword};

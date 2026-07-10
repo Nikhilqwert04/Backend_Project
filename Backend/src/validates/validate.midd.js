@@ -1,4 +1,4 @@
-const { body } = require("express-validator")
+import { body } from "express-validator";
 
 const userRegisterValidator = () => {
     return [
@@ -62,4 +62,4 @@ const userResetForgotPasswordValidator = ()=>{
         body("newPassword").notEmpty().withMessage("Password is Empty")
     ]
 }
-module.exports = { userRegisterValidator, userLoginValidator, userChangedCurrentPasswordValidator,userForgotPasswordValidator,userResetForgotPasswordValidator}
+export { userRegisterValidator, userLoginValidator, userChangedCurrentPasswordValidator,userForgotPasswordValidator,userResetForgotPasswordValidator};

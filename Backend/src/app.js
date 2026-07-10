@@ -1,9 +1,9 @@
-const express = require('express')
-const cookieParse = require('cookie-parser')
-const multer = require("multer")
-const uploadFile = require("./services/storage.service.js")
-const cors = require('cors')
-const StudentModel = require("./models/student.model.js")
+import express from 'express';
+import cookieParse from 'cookie-parser';
+import multer from "multer";
+import uploadFile from "./services/storage.service.js";
+import cors from 'cors';
+import StudentModel from "./models/student.model.js";
 const app = express()
 
 app.use(cookieParse())
@@ -16,11 +16,11 @@ app.use(cors({
 
 app.use(express.json())
 
-const healthCheckRouter = require("./routes/healthcheck.route.js")
-const authRouter = require("./routes/auth.routes.js")
+import healthCheckRouter from "./routes/healthcheck.route.js";
+import authRouter from "./routes/auth.routes.js";
 
 app.use("/api/v1/healthcheck", healthCheckRouter)
 app.use("/api/v1/auth", authRouter)
 
 
-module.exports = app
+export default app;

@@ -1,7 +1,7 @@
-const User = require("../models/student.model.js")
-const ApiError = require("../utils/api-error.js")
-const asyncHandler  = require("../utils/async-handler.js")
-const jwt = require("jsonwebtoken")
+import User from "../models/student.model.js";
+import ApiError from "../utils/api-error.js";
+import asyncHandler from "../utils/async-handler.js";
+import jwt from "jsonwebtoken";
 
 
 const verifyJWT = asyncHandler(async (req, res, next) => {
@@ -26,6 +26,6 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
     
 })
 
-module.exports = verifyJWT
+export default verifyJWT;
 
 

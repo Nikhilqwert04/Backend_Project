@@ -1,8 +1,8 @@
-const {Router} = require("express");
-const { registerUser, login, logoutUser, verifyEmail, refreshAccessToken, forgetPasswordRequest, resetPasswordForget, getCurrentUser, changeCurrentPassword, resendEmailVerification } = require("../controllers/auth.controllers.js");
-const validate = require("../middlewares/validator.middleware.js");
-const { userRegisterValidator, userLoginValidator, userForgotPasswordValidator, userResetForgotPasswordValidator, userChangedCurrentPasswordValidator } = require("../validates/validate.midd.js");
-const verifyJWT = require("../middlewares/auth.middleware.js");
+import {Router} from "express";
+import { registerUser, login, logoutUser, verifyEmail, refreshAccessToken, forgetPasswordRequest, resetPasswordForget, getCurrentUser, changeCurrentPassword, resendEmailVerification } from "../controllers/auth.controllers.js";
+import validate from "../middlewares/validator.middleware.js";
+import { userRegisterValidator, userLoginValidator, userForgotPasswordValidator, userResetForgotPasswordValidator, userChangedCurrentPasswordValidator } from "../validates/validate.midd.js";
+import verifyJWT from "../middlewares/auth.middleware.js";
 const router = Router();
 
 //unsecure routes
@@ -24,4 +24,4 @@ router.route("/resend-email-verification").post(verifyJWT, resendEmailVerificati
 
 
 
-module.exports = router;
+export default router;

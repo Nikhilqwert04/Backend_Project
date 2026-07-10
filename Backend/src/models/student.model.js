@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-const bcrypt = require("bcrypt")
-const jwt = require('jsonwebtoken')
-const crypto = require('crypto')
+import mongoose from 'mongoose';
+import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 
 let UserSchema = new mongoose.Schema({
     avatar: {
@@ -105,4 +105,4 @@ UserSchema.methods.generateTemporaryToken = function(){
 
 const StudentModel = mongoose.model('User', UserSchema)
 
-module.exports = StudentModel
+export default StudentModel;

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
 async function connectdb() {
     try {
@@ -11,4 +11,4 @@ async function connectdb() {
     }
 }
 
-module.exports = connectdb
+export default connectdb;
