@@ -215,7 +215,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
 
         const options = {
             httpOnly: true,
-            secure: true
+            secure: trueg  
         }
 
         const { accessToken, refreshToken: newRefreshToken } = await genrateAccessAndRefreshToken(user._id)
