@@ -4,64 +4,145 @@ import ProjectMember from "../models/projectmember.js";
 import ApiResponse from "../utils/api-response.js";
 import ApiError from "../utils/api-error.js";
 import asyncHandler from "../utils/async-handler.js";
-import  Mongoose  from "mongoose";
 import mongoose from "mongoose";
+import { UserRolesEnum } from "../utils/constants.js";
 
+const getProjects = asyncHandler(async (req, res) => {
+  //test
+});
 
-const getProjects = asyncHandler(async(req,res)=>{
-    //test
-})
+const getProjectById = asyncHandler(async (req, res) => {
+  //test
+});
 
-const getProjectById = asyncHandler(async(req,res)=>{
-    //test
-})
+const createProject = asyncHandler(async (req, res) => {
+  const { name, description } = req.body;
+  const project = await Project.create({
+    name,
+    description,
+    createdBy: new mongoose.Types.ObjectId(req.user._id),
+  });
 
-const createProject = asyncHandler(async(req,res)=>{
-    const {name,description} = req.body
-    const project= await Project.create({
-        name,description,
-        createdBy:new mongoose.Types.ObjectId(req.user._id)
-    })
+  await ProjectMember.create({
+    user: new mongoose.Types.ObjectId(req.user._id),
+    project: new mongoose.Types.ObjectId(project._id),
+    role: UserRolesEnum.ADMIN,
+  });
 
-    await ProjectMember.create(
-        {user: new mongoose.Types.ObjectId(req,user._id),
-        project: new mongoose.Types.ObjectId()
-        }
-    )
-})
+  return res
+    .res(201)
+    .json(new ApiResponse(201, project, "Project Created Successfully"));
+});
 
-const updateProject = asyncHandler(async(req,res)=>{
-    //test
-})
+const updateProject = asyncHandler(async (req, res) => {
+  const { name, description } = req.body;
+  const { projectId } = req.params;
 
-const deleteProject = asyncHandler(async(req,res)=>{
-    //test
-})
+  const project = await Project.findByIdAndUpdate(
+    projectId,
+    {
+      name,
+      description,
+    },
+    { new: true },
+  );
 
-const addMembersToProject = asyncHandler(async(req,res)=>{
-    //test
-})
+  if (!project) {
+    throw new ApiError(404, "Project not found");
+  }
 
-const getProjectsMember = asyncHandler(async(req,res)=>{
-    //test
-})
+  return res
+    .status(201)
+    .json(new ApiResponse(201, project, "Project Updated Succesfully"));
+});
 
-const updateMemberproject = asyncHandler(async(req,res)=>{
-    //test
-})
+const deleteProject = asyncHandler(async (req, res) => {
+  const { projectId } = req.params;
+  const project = await Project.findByIdAndDelete(projectId);
 
-const deleteMember = asyncHandler(async(req,res)=>{
-    //test
-})
+  if (!project) {
+    throw new ApiError(404, "Project not found");
+  }
 
-export{
-    addMembersToProject,
-    createProject,
-    deleteMember,
-    getProjectById,
-    updateMemberproject,
-    getProjects,
-    deleteProject,
-    updateProject,
-    getProjectsMember
-}
+  return res
+    .status(201)
+    .json(new ApiResponse(201, project, "Project Deleted Succesfully"));
+});
+
+const addMembersToProject = asyncHandler(async (req, res) => {
+  //test
+});
+
+const getProjectsMember = asyncHandler(async (req, res) => {
+  const projects = await ProjectMember.aggregate(
+    {
+      $match: {
+        user: new mongoose.Types.ObjectId(req.user._id),
+      },
+    },
+    {
+      $lookup: {
+        from: "projects",
+        localField: "projects",
+        foreignField: "_Id",
+        as: "projects",
+        pipeline: [
+          {
+            $lookup: {
+              from: "projectmembers",
+              localField: "_Id",
+              foreignField: "projects",
+              as: "projectmembers",
+            },
+          },
+          {
+            $addfield: {
+              members: {
+                $size: "$projectmembers",
+              },
+            },
+          },
+          {
+            $unwind: "$project",
+          },
+          {
+            $project: {
+              project: {
+                _id: 1,
+                description: 1,
+                members: 1,
+                createdAt: 1,
+                createdBy: 1,
+              },
+              role: 1,
+              _id: 0,
+            },
+          },
+        ],
+      },
+    },
+  );
+  return res
+    .status(200)
+    .json(new ApiResponse(200, projects, "Project fetched successfully"));
+});
+
+const updateMemberproject = asyncHandler(async (req, res) => {
+  //test
+});
+
+const deleteMember = asyncHandler(async (req, res) => {
+  //test
+});
+
+export {
+  addMembersToProject,
+  createProject,
+  deleteMember,
+  getProjectById,
+  updateMemberproject,
+  getProjects,
+  deleteProject,
+  updateProject,
+  getProjectsMember,
+};
