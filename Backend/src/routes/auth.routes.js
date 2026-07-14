@@ -11,7 +11,7 @@ router.route("/login").post(userLoginValidator(),validate,login)
 router.route("/verify-email/:verificationToken").post(verifyEmail)
 router.route("/refresh-token").post(refreshAccessToken)
 router.route("/forgot-password").post(userForgotPasswordValidator(), validate, forgetPasswordRequest)
-router.route("/reset-password/:resetToken").post(userResetForgotPasswordValidator, validate, resetPasswordForget)
+router.route("/reset-password/:resetToken").post(userResetForgotPasswordValidator(), validate, resetPasswordForget)
 
 
 //secure routes
